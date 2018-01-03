@@ -1,0 +1,64 @@
+<!DOCTYPE HTML> 
+<html> 
+<head> 
+<meta charset="utf-8"> 
+</head> 
+<body> 
+<script> 
+'use strict'; 
+class Purchase { 
+
+constructor(name, price, quantity) { 
+this.Name = name; 
+this.Price = price; 
+this.Quantity = quantity; 
+} 
+
+getCost() { 
+return (this.Price * this.Quantity); 
+} 
+
+toString() { 
+return (this.Name + ";" + this.Price + ";" + this.Quantity + ";" + this.getCost()); 
+} 
+} 
+
+class PurchaseDiscountPercent extends Purchase { 
+
+constructor(name, price, quantity, percent) { 
+super(name, price, quantity); 
+this.Percent = percent; 
+} 
+getCost() { 
+return (super.getCost() * (100 - this.Percent) / 100); 
+} 
+
+toString() { 
+return (super.toString() + ";" + this.Percent); 
+} 
+
+} 
+
+var purchases = [new Purchase("Milk", 1.99, 5), new Purchase("Honey", 4.005, 10), new Purchase("Bread", 3, 2), new Purchase("Water", 10.656, 1), new PurchaseDiscountPercent("1", 200, 5, 10), new PurchaseDiscountPercent("2", 400, 5, 20), new PurchaseDiscountPercent("3", 100, 1, 10)]; 
+
+for (var i = 0; i < purchases.length; i++) { 
+document.writeln(purchases[i].toString() + "<br />"); 
+} 
+
+
+function makeS(cost) { 
+var currentCount = 0; 
+return function (cost) { 
+return currentCount += cost; 
+}; 
+} 
+
+var counter = makeS(); 
+for (i = 0; i < purchases.length; i++) { 
+counter(purchases[i].getCost()); 
+} 
+
+document.writeln(counter(0).toFixed(2) + "<br />"); 
+</script> 
+</body> 
+</html>
